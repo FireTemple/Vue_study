@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+<h2>current counter：{{counter}}</h2>
+    <button v-on:click="plus">+</button>
+    <button v-on:click="munes">-</button>
+</div>
+<script>
+    let app = new Vue({
+        el:'#app',
+        data: {
+            counter:0
+        },
+        methods:{
+            plus: function (event) {
+                console.log("aaa")
+                this.counter ++;
+            },
+            munes: function () {
+                this.counter --;
+            }
+        }
+    });
+</script>
+</body>
+</html>
