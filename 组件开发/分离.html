@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <h2>{{message}}</h2>
+    <my-title></my-title>
+</div>
+
+<template id="myTemplate">
+    <div>
+        <h1>标题</h1>
+        <p>context</p>
+    </div>
+</template>
+<script>
+
+    Vue.component("my-title", {
+        template: '#myTemplate'
+    })
+
+    let vue = new Vue({
+        el: '#app',
+        data: {
+            message: "hello Vue"
+        },
+    });
+</script>
+</body>
+</html>

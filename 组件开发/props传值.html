@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!-- 这里通过v-bind来绑定父子-->
+    <cpn :cmovies="movies" :cmessage="message"></cpn>
+</div>
+
+<template id="myCpn">
+    <div>
+        <ul>
+            <li v-for="item in cmovies">{{item}}</li>
+        </ul>
+        <hr>
+        <p>{{cmessage}}</p>
+    </div>
+</template>
+<script>
+    const cpn = {
+        template: '#myCpn',
+        // 创建子类需要的变量 字符串就是变量
+        // props: ['cmovies','cmessage']
+        props: {
+            cmovies: {
+                type: Array,
+                // 需要注意 这里和data一样必须要用函数返回
+                default(){
+                    return ['default elements'];
+                }
+            },
+            cmessage: {
+                type: String,
+                default: 'default message'
+            }
+
+        }
+    }
+
+    let app = new Vue({
+        el: '#app',
+        data:{
+            message: "hello Vue",
+            movies: [
+                'aaa','vvv','cccc'
+            ]
+        },
+        components: {
+            cpn
+        }
+    });
+</script>
+</body>
+</html>

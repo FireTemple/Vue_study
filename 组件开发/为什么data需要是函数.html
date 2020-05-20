@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <cpn></cpn>
+</div>
+<template id="myCpn">
+    <div>
+        <h2>当前计数:{{counter}}</h2>
+        <button @click="increment">+</button>
+        <button @click="decrement">-</button>
+    </div>
+</template>
+<script>
+    Vue.component('cpn',{
+        template: '#myCpn',
+        // 用函数返回对象
+        data(){
+            return{
+                counter: 0
+            }
+        },
+        methods: {
+            increment(){
+                this.counter ++;
+            },
+            decrement(){
+                this.counter --;
+            }
+        }
+    });
+
+    let app = new Vue({
+        el: '#app',
+        data:{
+            message: "hello Vue"
+        }
+    });
+</script>
+</body>
+</html>

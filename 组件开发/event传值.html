@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!-- 这里通过v-bind来绑定父子-->
+    <!-- 这里来监听自定义事件 -->
+    <cpn :cmovies="movies" :cmessage="message" @item-click="childClick"></cpn>
+</div>
+
+<template id="myCpn">
+    <div>
+        <ul>
+            <li v-for="item in cmovies" @click="itemClick(item)">{{item}}</li>
+        </ul>
+        <hr>
+        <p>{{cmessage}}</p>
+    </div>
+</template>
+<script>
+    const cpn = {
+        template: '#myCpn',
+        // 创建子类需要的变量 字符串就是变量
+        // props: ['cmovies','cmessage']
+        props: {
+            cmovies: {
+                type: Array,
+                // 需要注意 这里和data一样必须要用函数返回
+                default(){
+                    return ['default elements'];
+                }
+            },
+            cmessage: {
+                type: String,
+                default: 'default message'
+            }
+        },
+        methods: {
+            // 创建事件触发调用的方法（自定义事件）
+            itemClick(item){
+                // 通过emit来通知父组件事件触发了
+                this.$emit('item-click',item);
+            }
+        }
+    }
+
+    let app = new Vue({
+        el: '#app',
+        data:{
+            message: "hello Vue",
+            movies: [
+                'aaa','vvv','cccc'
+            ]
+        },
+        components: {
+            cpn
+        },
+        methods: {
+            childClick(item){
+                console.log(item);
+            }
+        }
+    });
+</script>
+</body>
+</html>

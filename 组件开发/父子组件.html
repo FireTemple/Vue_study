@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <h2>{{message}}</h2>
+    <my_title></my_title>
+    <my_title></my_title>
+    <my_title></my_title>
+</div>
+
+<script>
+    const cpn1 = Vue.extend({
+        template: `
+        <div>
+            <h2>我是标题1</h2>
+            <p>内容啦啦啦啦啦啦</p>
+        </div>
+        `
+    });
+    const cpn2 = Vue.extend({
+        template: `
+        <div>
+            <h2>我是标题2</h2>
+            <p>内容啦啦啦啦啦啦</p>
+            <cpn1></cpn1>
+            <cpn1></cpn1>
+            <cpn1></cpn1>
+        </div>
+        `,
+        //在组件2中注册组件1 这样在组件1的模板里面同样可以引用组件1
+        components: {
+            cpn1 : cpn1
+        }
+    });
+
+    let vue = new Vue({
+        el: '#app',
+        data: {
+            message: "hello Vue"
+        },
+        components: {
+            my_title : cpn2
+        }
+    });
+</script>
+</body>
+</html>
