@@ -10,10 +10,13 @@
     <cpn></cpn>
     <cpn ref="aaa"></cpn>
     <cpn></cpn>
-    <button @click="btnClick">button</button>
+
 </div>
 <template id="cpn">
-    <div>子组件</div>
+    <div>
+        <div>子组件</div>
+        <button @click="btnClick">button</button>
+    </div>
 </template>
 <script>
     let app = new Vue({
@@ -25,19 +28,15 @@
             cpn:{
                 template: '#cpn',
                 methods: {
-                    showMessage(){
-                        console.log("message from child");
+                    btnClick(){
+                        this.$parent.showMessage();
                     }
                 }
             }
         },
         methods: {
-            btnClick(){
-                // 通过$children 来获取所有的children
-                // this.$children[0].showMessage();
-
-                //通过$refs
-                this.$refs.aaa.showMessage();
+            showMessage(){
+                console.log("message from root");
             }
         }
     });

@@ -2,9 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
 </head>
 <body>
-$END$
+<div id="app">
+    <cpn></cpn>
+    <cpn ref="aaa"></cpn>
+    <cpn></cpn>
+    <button @click="btnClick">button</button>
+</div>
+<template id="cpn">
+    <div>子组件</div>
+</template>
+<script>
+    let app = new Vue({
+        el: '#app',
+        data:{
+            message: "hello Vue"
+        },
+        components: {
+            cpn:{
+                template: '#cpn',
+                methods: {
+                    showMessage(){
+                        console.log("message from child");
+                    }
+                }
+            }
+        },
+        methods: {
+            btnClick(){
+                // 通过$children 来获取所有的children
+                // this.$children[0].showMessage();
+
+                //通过$refs
+                this.$refs.aaa.showMessage();
+            }
+        }
+    });
+</script>
 </body>
 </html>

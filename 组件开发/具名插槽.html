@@ -7,16 +7,15 @@
 </head>
 <body>
 <div id="app">
-    <cpn></cpn>
-    <cpn><i>lalalala</i></cpn>
-    <cpn><p>kjhkjhkjh</p></cpn>
+    <cpn><span slot="center">123123123</span></cpn>
+    <cpn><i slot="left">lalalala</i></cpn>
+    <cpn><b slot="right">kjhkjhkjh</b></cpn>
 </div>
 <template id="cpn">
     <div>
-       <h2>标题</h2>
-        <p>内容</p>
-        <!-- 写在slot里的相当于是默认 传入则覆盖-->
-        <slot><button>按钮</button></slot>
+       <slot name="left"><span>左边</span></slot>
+       <slot name="center"><span>中间</span></slot>
+       <slot name="right"><span>右边</span></slot>
     </div>
 </template>
 <script>

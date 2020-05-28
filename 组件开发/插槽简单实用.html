@@ -8,14 +8,15 @@
 <body>
 <div id="app">
     <cpn></cpn>
-    <cpn ref="aaa"></cpn>
-    <cpn></cpn>
-
+    <cpn><i>lalalala</i></cpn>
+    <cpn><p>kjhkjhkjh</p></cpn>
 </div>
 <template id="cpn">
     <div>
-        <div>子组件</div>
-        <button @click="btnClick">button</button>
+       <h2>标题</h2>
+        <p>内容</p>
+        <!-- 写在slot里的相当于是默认 传入则覆盖-->
+        <slot><button>按钮</button></slot>
     </div>
 </template>
 <script>
@@ -27,16 +28,6 @@
         components: {
             cpn:{
                 template: '#cpn',
-                methods: {
-                    btnClick(){
-                        this.$parent.showMessage();
-                    }
-                }
-            }
-        },
-        methods: {
-            showMessage(){
-                console.log("message from root");
             }
         }
     });

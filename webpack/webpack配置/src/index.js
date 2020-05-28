@@ -1,3 +1,3 @@
-import {name, age} from "./aaa";
+import {name, age} from "./js/aaa";
 
 console.log(name, age);
