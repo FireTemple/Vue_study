@@ -1,6 +1,6 @@
 <template>
-<div class="goods-item">
-  <img :src="goodsItem.show.img" alt="">
+<div class="goods-item" @click="detail">
+  <img :src="showImage" alt="">
   <div class="goods-info">
     <p>{{goodsItem.title}}</p>
     <span class="price">{{goodsItem.price}}</span>
@@ -19,6 +19,16 @@
               return {};
             }
           }
+      },
+      computed :{
+        showImage(){
+          return this.goodsItem.show.image || this.goodsItem.show.img
+        }
+      },
+      methods: {
+        detail(){
+          this.$router.push('/detail/' + this.goodsItem.iid);
+        }
       }
     }
 </script>

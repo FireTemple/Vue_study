@@ -1,14 +1,26 @@
 <template>
   <div id="home">
     <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
-
-    <scroll class="content">
-      <home-swiper :banners="banners"/>
+    <tab-control :titles="['流行','新款','精选']"
+                 @tabClick="tabClick"
+                 class="tab-control"
+                 v-show="isFixed"
+                 ref="topTabControl"/>
+    <scroll class="content"
+            ref="scroll"
+            :probe-type="3"
+            @scroll="showBackBtn"
+            :pull-up-load="true"
+    @pullingUp="loadMore">
+      <home-swiper :banners="banners" @swiperImageLoaded.once="swiperImageLoaded"/>
       <recommend-view :recommends="recommends"/>
       <feature-view/>
-      <tab-control :titles="['流行','新款','精选']" class="tab-control" @tabClick="tabClick"/>
+      <tab-control :titles="['流行','新款','精选']"
+                   @tabClick="tabClick"
+                   ref="tabControl"/>
       <goods-list :goods="showGoods"/>
     </scroll>
+    <back-top  @click.native="backClick"   v-show="showBackButton"/>
   </div>
 </template>
 
@@ -24,6 +36,7 @@
   import TabControl from "../../components/content/tabControl/TabControl";
   import GoodsList from "../../components/content/goods/GoodsList";
   import Scroll from "../../components/common/scroll/Scroll";
+  import BackTop from "../../components/content/backTop/BackTop";
 
   export default {
     name: "Home",
@@ -34,7 +47,8 @@
       FeatureView,
       TabControl,
       GoodsList,
-      Scroll
+      Scroll,
+      BackTop
     },
     // 一般这里只写主要逻辑 不写细节 所以用methods封装
     created() {
@@ -81,7 +95,33 @@
             this.currentType = 'sell';
             break
         }
+        this.$refs.topTabControl.currentIndex = index;
+        this.$refs.tabControl.currentIndex = index;
+      },
+      backClick(){
+        this.$refs.scroll.scrollTo(0,0,500);
+      },
+      showBackBtn(position){
+        this.showBackButton = position.y < -1000;
+        this.isFixed = position.y < - this.tabOffsetTop;
+      },
+      loadMore(){
+        this.loadHomeGoods(this.currentType);
+        this.$refs.scroll.finishedPullUp();
+        // 刷新一下重新计算高度
+        this.$refs.scroll.scroll.refresh();
+      },
+      swiperImageLoaded(){
+        this.tabOffsetTop = this.$refs.tabControl.$el.offsetTop;
       }
+    },
+    activated() {
+      console.log('activated and Y:', this.HomeY);
+      this.$refs.scroll.scrollTo(0, this.HomeY);
+    },
+    deactivated() {
+      console.log('deactivated and y:' , this.HomeY);
+      this.HomeY = this.$refs.scroll.scroll.y;
     },
     data(){
       return {
@@ -93,12 +133,19 @@
           'sell': {page: 0, list:[]}
         },
         currentType: 'pop',
+        showBackButton: false,
+        tabOffsetTop: 0,
+        isFixed: false,
+        HomeY: 0
       }
     },
     computed: {
       showGoods(){
           return this.goods[this.currentType].list
       }
+    },
+    mounted() {
+      // console.log(this.$refs.tabControl.$el);
     }
   }
 </script>
@@ -114,26 +161,30 @@
     background-color: var(--color-tint);
     color: #fff;
 
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    z-index: 9;
+    /*position: fixed;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*top: 0;*/
+    /*z-index: 9;*/
   }
 
-  .tab-control {
-    position: sticky;
-    top: 44px;
-    z-index: 9;
-  }
 
   .content{
-    height: 300px;
+    overflow: hidden;
+
     position: absolute;
     top: 44px;
     bottom: 49px;
     left: 0;
     right: 0;
   }
+
+  .tab-control{
+    position: relative;
+    z-index: 9;
+  }
+
+
+
 
 </style>
